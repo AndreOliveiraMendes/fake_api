@@ -115,6 +115,10 @@ http://127.0.0.1:5001
 
 * Lista todos os usuários mockados atualmente.
 
+✅ **POST /mock\_data**
+
+* Adiciona um usuário temporariamente à lista de usuários. Os dados persistem apenas enquanto o app estiver rodando.
+
 ---
 
 ## ⚙️ Exemplo de usuário mock
