@@ -1,0 +1,17 @@
+# Python virtual environments
+.venv/
+venv/
+
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+
+# Logs
+*.log
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# imagem docker salvas
+*.tar
