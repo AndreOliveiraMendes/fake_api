@@ -70,8 +70,18 @@ def health():
     return jsonify({
         "status": "ok",
         "service": "fake_api",
-        "version": "1.2.0"
+        "version": "1.2.1"
     }), 200
+
+@app.route('/api/autenticar/json', methods=['POST'])
+def autenticar():
+    login = request.form.get('login')
+    senha = request.form.get('senha')
+    for user in DADOS_USUARIO:
+        if login == str(user['login']) and senha == str(user['senha']):
+            return jsonify({"usuario": user["usuario"]}), 200
+    else:
+        return jsonify({"erro": "Usuário não encontrado"}), 404
 
 # ✅ Carrega os dados quando iniciar
 if __name__ == '__main__':
