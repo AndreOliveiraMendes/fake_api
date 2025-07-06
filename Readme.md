@@ -19,11 +19,12 @@ Ideal para desenvolvimento e testes offline.
 
 ```
 
-fake\_api/
+fake_api/
 ├── app/
 │   └── main.py
 ├── data/
-│   ├── dados\_mock\_exemplo.json
+│   ├── dados_mock_exemplo.json
+|   └── dados_mock.json           # criado automaticamente ao rodar localmente
 ├── requirements.txt
 └── Dockerfile
 
