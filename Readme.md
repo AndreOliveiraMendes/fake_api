@@ -80,7 +80,7 @@ Retorna status do serviço:
 {
   "status": "ok",
   "service": "fake_api",
-  "version": "1.2.0"
+  "version": "1.2.1"
 }
 ```
 
