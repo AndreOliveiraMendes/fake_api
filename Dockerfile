@@ -1,16 +1,25 @@
+# ✅ Imagem base oficial do Python
 FROM python:3.12-slim
 
+# ✅ Metadata (opcional)
+LABEL maintainer="andré <ao_mendes@hotmail.com>"
+LABEL version="1.2.0"
+LABEL description="Fake API para testes locais com dados mock."
+
+# ✅ Define diretório de trabalho
 WORKDIR /app
 
-# Copia as dependências e instala
+# ✅ Copia o código da API
+COPY app/ ./app
+
+# ✅ Copia o requirements.txt
 COPY requirements.txt .
+
+# ✅ Instala dependências
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia o código
-COPY . .
-
-# Expor a porta para o host
+# ✅ Exponha a porta usada
 EXPOSE 5001
 
-# Rodar o app
-CMD ["python", "main.py"]
+# ✅ Defina ponto de entrada
+CMD ["python", "app/main.py"]

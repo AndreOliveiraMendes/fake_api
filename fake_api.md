@@ -10,7 +10,7 @@ Se você alterou o código (ex.: `main.py`, `requirements.txt`), faça:
 
 ```bash
 podman build -t fake_api .
-```
+````
 
 ✅ Isso cria ou atualiza a imagem chamada **fake\_api**.
 
@@ -22,12 +22,29 @@ podman build --no-cache -t fake_api .
 
 ---
 
-## 🚀 Como startar (rodar) a fake\_api
+## 📂 Como preparar os dados (somente na 1ª vez)
 
-Rodar em background (detached), expondo a porta 5001:
+Crie o volume de dados mock no host com o arquivo inicial:
 
 ```bash
-podman run -d --name fake_api_server -p 5001:5001 fake_api
+mkdir -p ~/fake_api_data
+cp data/dados_mock_exemplo.json ~/fake_api_data/dados_mock.json
+```
+
+✅ Isso garante que os dados persistam entre execuções.
+
+---
+
+## 🚀 Como startar (rodar) a fake\_api
+
+Rodar em background (detached), expondo a porta 5001 **e montando o volume**:
+
+```bash
+podman run -d \
+  --name fake_api_server \
+  -p 5001:5001 \
+  -v ~/fake_api_data:/app/data \
+  fake_api
 ```
 
 ✅ Flags explicadas:
@@ -35,6 +52,7 @@ podman run -d --name fake_api_server -p 5001:5001 fake_api
 * `-d` → roda em background
 * `--name fake_api_server` → nome amigável para o container
 * `-p 5001:5001` → expõe a porta para acesso local
+* `-v ~/fake_api_data:/app/data` → monta volume persistente com os dados JSON
 
 ---
 
@@ -56,6 +74,12 @@ curl http://127.0.0.1:5001/health
 
 ```bash
 podman logs fake_api_server
+```
+
+✅ Ver dados mock persistidos:
+
+```bash
+cat ~/fake_api_data/dados_mock.json
 ```
 
 ---
@@ -108,7 +132,7 @@ podman ps -a
 ✅ Rodar removendo o container automaticamente ao parar:
 
 ```bash
-podman run -d --rm -p 5001:5001 fake_api
+podman run -d --rm -p 5001:5001 -v ~/fake_api_data:/app/data fake_api
 ```
 
 ---
@@ -123,9 +147,18 @@ podman build -t fake_api .
 podman stop fake_api_server
 podman rm fake_api_server
 
-# Rodar a nova versão
-podman run -d --name fake_api_server -p 5001:5001 fake_api
+# Criar volume e copiar dados iniciais (apenas 1ª vez)
+mkdir -p ~/fake_api_data
+cp data/dados_mock_exemplo.json ~/fake_api_data/dados_mock.json
+
+# Rodar a nova versão com volume
+podman run -d --name fake_api_server -p 5001:5001 -v ~/fake_api_data:/app/data fake_api
 
 # Verificar logs
 podman logs -f fake_api_server
 ```
+
+---
+
+✅ Com isso, sua **Fake API** está sempre pronta para rodar com dados persistentes, mockados e editáveis!
+**Se atualizar a imagem ou os dados, basta rebuildar e restartar.**

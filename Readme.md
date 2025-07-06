@@ -1,191 +1,193 @@
-# 🧪 Fake API
+# 🧪 Fake API - Projeto de Autenticação Mock
 
-Mock API simples e portátil para desenvolvimento local.  
-Permite simular autenticação de usuários com dados fictícios.  
-
-✅ Ideal para testar aplicações sem precisar da API real.  
-✅ Pode rodar em container (Podman/Docker) ou como app Python puro.
+API REST simples em Flask para simular um serviço de autenticação.  
+Ideal para desenvolvimento e testes offline.
 
 ---
 
-## 📜 Funcionalidades
+## ✅ ✨ Funcionalidades
 
-- 🔐 Endpoint de autenticação mockado: `/api/autenticar/json`
-- ❤️ Health check: `/health`
-- 🗂️ Endpoint de debug: `/mock_data` (lista todos os usuários fake)
-- ✅ Totalmente configurável via código (adicionar/remover usuários mock)
-
----
-
-## 🚀 Como rodar
-
-Você pode rodar **de duas formas**:
+- Mock de autenticação (POST /api/autenticar/json)
+- Armazena usuários mock em JSON
+- Persistência com volume externo
+- Rotas para gerenciar dados mock
+- Health check simples
 
 ---
 
-### 🟣 1️⃣ Usando Podman (recomendado)
+## ✅ 📦 Estrutura recomendada
 
-📦 **1. Build da imagem**
-```bash
-podman build -t fake_api .
+```
+
+fake\_api/
+├── app/
+│   └── main.py
+├── data/
+│   ├── dados\_mock\_exemplo.json
+├── requirements.txt
+└── Dockerfile
+
 ````
 
-🚀 **2. Rodar o container**
+---
 
-```bash
-podman run -d --name fake_api_server -p 5001:5001 fake_api
-```
+## ✅ 🚀 Endpoints disponíveis
 
-✅ A API estará em:
-
-```
-http://127.0.0.1:5001
-```
-
-🛑 **3. Parar o container**
-
-```bash
-podman stop fake_api_server
-```
-
-🗑️ **4. Remover o container**
-
-```bash
-podman rm fake_api_server
-```
+### ✅ **POST /api/autenticar/json**
+Autentica um usuário mock.  
+- Recebe: `login`, `senha` via `application/x-www-form-urlencoded`
+- Responde com:
+  - ✅ 200 + dados do usuário, se login/senha válidos
+  - ❌ 404 se não encontrado
 
 ---
 
-### 🟣 2️⃣ Usando Python puro
-
-✅ Requisitos: Python 3.11+ ou 3.12+
-
-📦 **1. Clonar o repositório**
-
-```bash
-git clone <repo_url>
-cd fake_api
-```
-
-🐍 **2. Criar e ativar o ambiente virtual**
-
-```bash
-python -m venv .venv
-
-# Ativar no Linux/Mac
-source .venv/bin/activate
-
-# Ativar no Windows
-.venv\Scripts\activate
-```
-
-📦 **3. Instalar dependências**
-
-```bash
-pip install -r requirements.txt
-```
-
-🚀 **4. Rodar**
-
-```bash
-python main.py
-```
-
-✅ A API estará em:
-
-```
-http://127.0.0.1:5001
-```
+### ✅ **GET /mock_data**
+Lista todos os usuários mock salvos.
 
 ---
 
-## 📡 Endpoints disponíveis
-
-✅ **POST /api/autenticar/json**
-
-* Autentica um usuário fake.
-* Retorna 200 com dados de exemplo ou 404 se inválido.
-
-✅ **GET /health**
-
-* Verifica se o servidor está rodando.
-* Responde com status `ok`.
-
-✅ **GET /mock\_data**
-
-* Lista todos os usuários mockados atualmente.
-
-✅ **POST /mock\_data**
-
-* Adiciona um usuário temporariamente à lista de usuários. Os dados persistem apenas enquanto o app estiver rodando.
+### ✅ **POST /mock_data**
+Adiciona um usuário temporariamente à lista de usuários.  
+Os dados persistem apenas enquanto o app estiver rodando **e se o volume estiver montado**.  
+Formato esperado:
+```json
+{
+  "login": "2",
+  "senha": "teste",
+  "usuario": {
+    "pessoa": {
+      "codigo": 2,
+      "nome": "João",
+      "email": "joao@example.com"
+    },
+    "codigo": 2,
+    "tipo": "FUNCIONARIO",
+    "situacao": "ATIVO",
+    "grupo": "DOCENTE"
+  }
+}
+````
 
 ---
 
-## ⚙️ Exemplo de usuário mock
+### ✅ **GET /health**
+
+Retorna status do serviço:
 
 ```json
 {
-  "login": "1",
-  "senha": "admin",
-  "usuario": {
-    "pessoa": {
-      "codigo": 1,
-      "nome": "admin",
-      "email": "admin@admin.admin"
-    },
-    "codigo": 1,
-    "tipo": "FUNCIONARIO",
-    "situacao": "ATIVO",
-    "grupo": "ADMINISTRADOR"
-  }
+  "status": "ok",
+  "service": "fake_api",
+  "version": "1.2.0"
 }
 ```
 
 ---
 
-## 💡 Dicas úteis
+## ✅ 📦 Pré-requisitos
 
-✅ Ver logs do container:
+* Python 3.12 (ou similar) **OU** Podman/Docker
+* Flask (ver `requirements.txt`)
+
+---
+
+## ✅ ⚙️ Usando localmente (sem container)
+
+1️⃣ Instale dependências:
 
 ```bash
-podman logs fake_api_server
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
-✅ Testar health check:
+2️⃣ Crie a pasta de dados (opcional):
 
 ```bash
-curl http://127.0.0.1:5001/health
+mkdir -p data
+cp data/dados_mock_exemplo.json data/dados_mock.json
 ```
 
-✅ Parar tudo facilmente:
+3️⃣ Rode o servidor:
 
 ```bash
-podman stop fake_api_server && podman rm fake_api_server
+python app/main.py
 ```
 
 ---
 
-## 📦 .gitignore sugerido
+## ✅ 🐳 Usando com Podman/Docker
 
-```
-.venv/
-__pycache__/
-*.py[cod]
-*.log
-.vscode/
-*.tar
+### ✅ 1️⃣ Build da imagem
+
+```bash
+podman build -t fake_api .
 ```
 
 ---
 
-## ✅ Licença
+### ✅ 2️⃣ Inicialize os dados no HOST
 
-Este projeto é livre para uso acadêmico ou de desenvolvimento.
-Você pode copiar, modificar e distribuir à vontade.
-Sugestão: [MIT License](https://opensource.org/licenses/MIT)
+Crie a pasta de dados no host e copie o exemplo:
+
+```bash
+mkdir -p ~/fake_api_data
+cp data/dados_mock_exemplo.json ~/fake_api_data/dados_mock.json
+```
 
 ---
 
-## 🤝 Contribuições
+### ✅ 3️⃣ Rodar o container
 
-Sugestões, issues ou pull requests são muito bem-vindos!
+Para rodar e mapear porta + volume:
+
+```bash
+podman run --rm -p 5001:5001 -v ~/fake_api_data:/app/data fake_api
+```
+
+⭐️ Ou em segundo plano:
+
+```bash
+podman run -d --rm -p 5001:5001 -v ~/fake_api_data:/app/data fake_api
+```
+
+---
+
+### ✅ 4️⃣ Verificar logs
+
+```bash
+podman logs <container_id>
+```
+
+---
+
+### ✅ 5️⃣ Parar container
+
+```bash
+podman stop <container_id>
+```
+
+---
+
+## ✅ 🗂️ Volume persistente
+
+⭐️ Qualquer dado adicionado via POST `/mock_data` será salvo em:
+
+```
+~/fake_api_data/dados_mock.json
+```
+
+✔️ Sobrevive mesmo após reiniciar o container!
+
+---
+
+## ✅ ⚠️ Observação
+
+✅ Se rodar **sem montar o volume**, todos os dados serão perdidos ao parar o container.
+
+---
+
+## ✅ 📝 Licença
+
+MIT License

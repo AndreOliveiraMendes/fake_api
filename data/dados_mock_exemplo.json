@@ -1,0 +1,17 @@
+[
+  {
+    "login": "1",
+    "senha": "admin",
+    "usuario": {
+      "pessoa": {
+        "codigo": 1,
+        "nome": "admin",
+        "email": "admin@admin.admin"
+      },
+      "codigo": 1,
+      "tipo": "FUNCIONARIO",
+      "situacao": "ATIVO",
+      "grupo": "ADMINISTRADOR"
+    }
+  }
+]
