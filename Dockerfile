@@ -3,7 +3,7 @@ FROM python:3.12-slim
 
 # ✅ Metadata (opcional)
 LABEL maintainer="andré <ao_mendes@hotmail.com>"
-LABEL version="1.2.0"
+LABEL version="1.2.1"
 LABEL description="Fake API para testes locais com dados mock."
 
 # ✅ Define diretório de trabalho
