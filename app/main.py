@@ -1,7 +1,7 @@
 import os
 import json
 from flask import Flask, request, jsonify
-from app.config import API_BASIC_USER, API_BASIC_PASS
+from app.config import API_HOST, API_BASIC_USER, API_BASIC_PASS
 
 app = Flask(__name__)
 
@@ -91,4 +91,4 @@ def autenticar():
 # ✅ Carrega os dados quando iniciar
 if __name__ == '__main__':
     load_data()
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    app.run(debug=True, host=API_HOST, port=5001)
