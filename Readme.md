@@ -20,9 +20,12 @@ Ideal para desenvolvimento e testes offline.
 ```
 
 fake_api/
+├── .env
+├── .env.example
+├── .gitignore
 ├── Dockerfile
 ├── LICENSE
-├── README.md
+├── Readme.md
 ├── app
 │   ├── config.py
 │   └── main.py
@@ -31,8 +34,7 @@ fake_api/
 │   └── dados_mock_exemplo.json
 ├── deploy.sh
 ├── fake_api.md
-├── requirements.txt
-└── .env.example
+└── requirements.txt
 
 ````
 
