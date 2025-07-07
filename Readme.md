@@ -46,12 +46,35 @@ Consulte o arquivo .env.example para ver como preencher o formato corretamente.
 
 ## ✅ 🚀 Endpoints disponíveis
 
-### ✅ **POST /api/autenticar/json**
-Autentica um usuário mock.  
-- Recebe: `login`, `senha` via `application/x-www-form-urlencoded`
-- Responde com:
-  - ✅ 200 + dados do usuário, se login/senha válidos
-  - ❌ 404 se não encontrado
+✅ Sem problema! Aqui está a versão atualizada com **Basic Auth incluído** e formatação Markdown padronizada, pronta pra colar no `README.md`:
+
+---
+
+### ✅ **POST `/api/autenticar/json`**
+
+Autentica um usuário mock.
+
+* 🔐 **Requer autenticação HTTP Basic** (veja `.env` para usuário e senha)
+* 📥 **Body**: `application/x-www-form-urlencoded`
+
+  * `login`: ID do usuário
+  * `senha`: Senha do usuário
+* 📤 **Respostas possíveis**:
+
+  * ✅ `200 OK`: Retorna os dados simulados do usuário
+  * ❌ `401 Unauthorized`: Credenciais da API incorretas (Basic Auth inválido)
+  * ❌ `404 Not Found`: Login ou senha inválidos (usuário não encontrado)
+
+---
+
+💡 \*\*Exemplo via `curl`:
+*(usando usuário/senha definidos no `.env`)*
+
+```bash
+curl -X POST http://localhost:5001/api/autenticar/json \
+  -u appuser:apppassword \
+  -d "login=1" -d "senha=admin"
+```
 
 ---
 
@@ -92,7 +115,7 @@ Retorna status do serviço:
 {
   "status": "ok",
   "service": "fake_api",
-  "version": "1.2.1"
+  "version": "1.3.0"
 }
 ```
 
