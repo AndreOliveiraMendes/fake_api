@@ -1,26 +1,26 @@
-# ✅ Imagem base oficial do Python
+# Imagem base
 FROM python:3.12-slim
 
-# ✅ Metadata (opcional)
-LABEL maintainer="andré <ao_mendes@hotmail.com>"
-LABEL version="1.2.1"
-LABEL description="Fake API para testes locais com dados mock."
+# Autor/label opcional
+LABEL maintainer="ao_mendes@hotmail.com"
 
-# ✅ Define diretório de trabalho
+# Diretório de trabalho
 WORKDIR /app
 
-# ✅ Copia o código da API
-COPY app/ ./app
-
-# ✅ Copia o requirements.txt
+# Copia requirements primeiro (cache melhor)
 COPY requirements.txt .
 
-# ✅ Instala dependências
+# Atualiza pip e instala dependências
 RUN python -m pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# ✅ Exponha a porta usada
+# Copia o código
+COPY app/ app/
+COPY data/ data/
+COPY .env ./
+
+# Expor a porta
 EXPOSE 5001
 
-# ✅ Defina ponto de entrada
-CMD ["python", "app/main.py"]
+# Comando de execução
+CMD ["python", "-m", "app.main"]

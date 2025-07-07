@@ -1,6 +1,7 @@
 import os
 import json
 from flask import Flask, request, jsonify
+from app.config import API_BASIC_USER, API_BASIC_PASS
 
 app = Flask(__name__)
 
@@ -70,11 +71,15 @@ def health():
     return jsonify({
         "status": "ok",
         "service": "fake_api",
-        "version": "1.2.1"
+        "version": "1.3.0"
     }), 200
 
 @app.route('/api/autenticar/json', methods=['POST'])
 def autenticar():
+    auth = request.authorization
+    if not auth or auth.username != API_BASIC_USER or auth.password != API_BASIC_PASS:
+        return jsonify({"error": "Unauthorized"}), 401
+
     login = request.form.get('login')
     senha = request.form.get('senha')
     for user in DADOS_USUARIO:

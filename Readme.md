@@ -20,15 +20,25 @@ Ideal para desenvolvimento e testes offline.
 ```
 
 fake_api/
-├── app/
+├── Dockerfile
+├── LICENSE
+├── README.md
+├── app
+│   ├── config.py
 │   └── main.py
-├── data/
-│   ├── dados_mock_exemplo.json
-|   └── dados_mock.json           # criado automaticamente ao rodar localmente
+├── data
+│   ├── dados_mock.json
+│   └── dados_mock_exemplo.json
+├── deploy.sh
+├── fake_api.md
 ├── requirements.txt
-└── Dockerfile
+└── .env.example
 
 ````
+
+✅ Nota:
+Antes de rodar o aplicativo ou buildar a imagem, certifique-se de criar e configurar o arquivo .env com as credenciais da API.
+Consulte o arquivo .env.example para ver como preencher o formato corretamente.
 
 ---
 
