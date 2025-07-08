@@ -1,7 +1,7 @@
 import os
 import json
 from flask import Flask, request, jsonify
-from app.config import API_HOST, API_BASIC_USER, API_BASIC_PASS
+from config import API_HOST, API_BASIC_USER, API_BASIC_PASS
 
 app = Flask(__name__)
 
