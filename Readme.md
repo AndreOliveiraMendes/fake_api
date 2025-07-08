@@ -27,11 +27,11 @@ fake_api/
 ├── LICENSE
 ├── Readme.md
 ├── app
-│   ├── config.py
 │   └── main.py
 ├── data
 │   ├── dados_mock.json
 │   └── dados_mock_exemplo.json
+├── config.py
 ├── deploy.sh
 ├── fake_api.md
 └── requirements.txt
