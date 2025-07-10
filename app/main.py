@@ -1,7 +1,7 @@
 import os
 import json
-from flask import Flask, request, jsonify
-from config import API_HOST, API_BASIC_USER, API_BASIC_PASS
+from flask import Flask, request, jsonify, send_from_directory
+from config import API_HOST, API_BASIC_USER, API_BASIC_PASS, TOKEN
 
 app = Flask(__name__)
 
@@ -71,7 +71,7 @@ def health():
     return jsonify({
         "status": "ok",
         "service": "fake_api",
-        "version": "1.3.0"
+        "version": "1.4.0"
     }), 200
 
 @app.route('/api/autenticar/json', methods=['POST'])
@@ -87,6 +87,21 @@ def autenticar():
             return jsonify({"usuario": user["usuario"]}), 200
     else:
         return jsonify({"erro": "Usuário não encontrado"}), 404
+    
+@app.route('/reload', methods=['POST'])
+def reload_data():
+    token = request.args.get('token')
+    if token != TOKEN:
+        return jsonify({"error": "Unauthorized"}), 403
+    app.logger.info("Reload triggered!")
+    load_data()
+    return jsonify({"ok": "recaregado"}), 200
+
+@app.route('/favicon.ico')
+def favicon():
+    print(os.path.join(app.root_path, 'static'))
+    return send_from_directory(os.path.join(app.root_path, 'static', 'images'),
+                               'favicon.png', mimetype='image/vnd.microsoft.icon')
 
 # ✅ Carrega os dados quando iniciar
 if __name__ == '__main__':

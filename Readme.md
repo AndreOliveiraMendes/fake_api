@@ -27,6 +27,9 @@ fake_api/
 ├── LICENSE
 ├── Readme.md
 ├── app
+│   ├── static
+│   │   └── images
+│   │       └── favicon.png
 │   └── main.py
 ├── data
 │   ├── dados_mock.json
@@ -118,6 +121,33 @@ Retorna status do serviço:
   "version": "1.3.0"
 }
 ```
+
+---
+
+### ✅ **POST /reload**
+
+Recarega os dados da aplicação. Requer a presença de um token de autenticação via query string.
+
+#### Parâmetros:
+
+* `token` (obrigatório, na query string): chave de segurança para autorização da recarga.
+
+#### Respostas:
+
+* ❌ `403 Forbidden`: caso o token seja inválido ou ausente.
+* ✅ `200 OK`: se a recarga for realizada com sucesso.
+
+#### Exemplo:
+
+```bash
+POST /reload?token=abc123
+```
+
+---
+
+### ✅ **GET /favicon.ico**
+
+Retorna o favicon usado pelo navegador
 
 ---
 
