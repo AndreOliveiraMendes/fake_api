@@ -71,7 +71,7 @@ def health():
     return jsonify({
         "status": "ok",
         "service": "fake_api",
-        "version": "1.4.0"
+        "version": "1.4.1"
     }), 200
 
 @app.route('/api/autenticar/json', methods=['POST'])
@@ -99,7 +99,6 @@ def reload_data():
 
 @app.route('/favicon.ico')
 def favicon():
-    print(os.path.join(app.root_path, 'static'))
     return send_from_directory(os.path.join(app.root_path, 'static', 'images'),
                                'favicon.png', mimetype='image/vnd.microsoft.icon')
 
