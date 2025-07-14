@@ -17,7 +17,6 @@ RUN python -m pip install --upgrade pip && \
 # Copia o código
 COPY app/ app/
 COPY data/ data/
-COPY .env ./
 copy config.py ./
 
 # Expor a porta

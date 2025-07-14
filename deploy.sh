@@ -5,6 +5,7 @@ IMAGE_NAME="fake_api"
 CONTAINER_NAME="fake_api_server"
 PORT="5001:5001"
 VOLUME_PATH="$HOME/fake_api_data:/app/data"
+ENV_FILE=".env"
 
 DRY_RUN=false
 for arg in "$@"; do
@@ -41,9 +42,9 @@ fi
 
 echo "🚀 Starting new container..."
 if $DRY_RUN; then
-  echo "> podman run -d --name $CONTAINER_NAME -p $PORT -v $VOLUME_PATH $IMAGE_NAME"
+  echo "> podman run -d --name $CONTAINER_NAME -p $PORT -v $VOLUME_PATH --env-file $ENV_FILE $IMAGE_NAME"
 else
-  podman run -d --name $CONTAINER_NAME -p $PORT -v $VOLUME_PATH $IMAGE_NAME
+  podman run -d --name $CONTAINER_NAME -p $PORT -v $VOLUME_PATH --env-file $ENV_FILE $IMAGE_NAME
 fi
 
 echo "✅ Done!"
