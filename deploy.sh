@@ -4,7 +4,7 @@
 IMAGE_NAME="fake_api"
 CONTAINER_NAME="fake_api_server"
 PORT="5001:5001"
-VOLUME_PATH="$HOME/fake_api_data:/app/data"
+VOLUME_PATH="$HOME/fake_api_data_local:/app/data"
 ENV_FILE=".env"
 
 DRY_RUN=false
