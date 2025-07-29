@@ -49,10 +49,6 @@ Consulte o arquivo .env.example para ver como preencher o formato corretamente.
 
 ## ✅ 🚀 Endpoints disponíveis
 
-✅ Sem problema! Aqui está a versão atualizada com **Basic Auth incluído** e formatação Markdown padronizada, pronta pra colar no `README.md`:
-
----
-
 ### ✅ **POST `/api/autenticar/json`**
 
 Autentica um usuário mock.
