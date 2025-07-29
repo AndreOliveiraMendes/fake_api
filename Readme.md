@@ -66,7 +66,7 @@ Autentica um usuário mock.
 
 ---
 
-💡 \*\*Exemplo via `curl`:
+💡 **Exemplo via `curl`**:
 *(usando usuário/senha definidos no `.env`)*
 
 ```bash
