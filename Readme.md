@@ -49,7 +49,7 @@ Consulte o arquivo .env.example para ver como preencher o formato corretamente.
 
 ## ✅ 🚀 Endpoints disponíveis
 
-### ✅ **POST `/api/autenticar/json`**
+### ✅ **POST `/autenticar/json`**
 
 Autentica um usuário mock.
 
@@ -70,7 +70,7 @@ Autentica um usuário mock.
 *(usando usuário/senha definidos no `.env`)*
 
 ```bash
-curl -X POST http://localhost:5001/api/autenticar/json \
+curl -X POST http://localhost:5001/autenticar/json \
   -u appuser:apppassword \
   -d "login=1" -d "senha=admin"
 ```

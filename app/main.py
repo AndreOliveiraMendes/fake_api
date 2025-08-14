@@ -71,10 +71,10 @@ def health():
     return jsonify({
         "status": "ok",
         "service": "fake_api",
-        "version": "1.4.1"
+        "version": "1.4.2"
     }), 200
 
-@app.route('/api/autenticar/json', methods=['POST'])
+@app.route('/autenticar/json', methods=['POST'])
 def autenticar():
     auth = request.authorization
     if not auth or auth.username != API_BASIC_USER or auth.password != API_BASIC_PASS:
