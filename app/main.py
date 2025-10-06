@@ -1,7 +1,9 @@
-import os
 import json
-from flask import Flask, request, jsonify, send_from_directory
-from config import API_HOST, API_BASIC_USER, API_BASIC_PASS, TOKEN
+import os
+
+from flask import Flask, jsonify, request, send_from_directory
+
+from config import API_BASIC_PASS, API_BASIC_USER, API_HOST, DEBUG_MODE, TOKEN
 
 app = Flask(__name__)
 
@@ -71,7 +73,7 @@ def health():
     return jsonify({
         "status": "ok",
         "service": "fake_api",
-        "version": "1.4.2"
+        "version": "1.4.3"
     }), 200
 
 @app.route('/autenticar/json', methods=['POST'])
@@ -105,4 +107,4 @@ def favicon():
 # ✅ Carrega os dados quando iniciar
 if __name__ == '__main__':
     load_data()
-    app.run(debug=True, host=API_HOST, port=5001)
+    app.run(debug=DEBUG_MODE, host=API_HOST, port=5001)
