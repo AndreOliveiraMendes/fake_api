@@ -19,32 +19,48 @@ echo "📦 Deploy script for $IMAGE_NAME"
 echo "Dry run mode: $DRY_RUN"
 echo "======================================"
 
-echo "🛑 Stopping existing container..."
-if $DRY_RUN; then
-  echo "> podman stop $CONTAINER_NAME || true"
+# Detect container engine
+ENGINE=""
+
+if command -v podman >/dev/null 2>&1 && command -v docker >/dev/null 2>&1; then
+  echo "⚙️  Both Podman and Docker detected."
+  echo "Choose container engine:"
+  select choice in "podman" "docker"; do
+    ENGINE=$choice
+    break
+  done
+elif command -v podman >/dev/null 2>&1; then
+  ENGINE="podman"
+  echo "🐧 Podman detected."
+elif command -v docker >/dev/null 2>&1; then
+  ENGINE="docker"
+  echo "🐳 Docker detected."
 else
-  podman stop $CONTAINER_NAME || true
+  echo "❌ Neither Docker nor Podman is installed."
+  exit 1
 fi
+
+echo "➡️ Using: $ENGINE"
+echo ""
+
+run_cmd() {
+  if $DRY_RUN; then
+    echo "> $*"
+  else
+    eval "$@"
+  fi
+}
+
+echo "🛑 Stopping existing container..."
+run_cmd "$ENGINE stop $CONTAINER_NAME || true"
 
 echo "🗑️ Removing existing container..."
-if $DRY_RUN; then
-  echo "> podman rm $CONTAINER_NAME || true"
-else
-  podman rm $CONTAINER_NAME || true
-fi
+run_cmd "$ENGINE rm $CONTAINER_NAME || true"
 
 echo "🔨 Building new image..."
-if $DRY_RUN; then
-  echo "> podman build -t $IMAGE_NAME ."
-else
-  podman build -t $IMAGE_NAME .
-fi
+run_cmd "$ENGINE build -t $IMAGE_NAME ."
 
 echo "🚀 Starting new container..."
-if $DRY_RUN; then
-  echo "> podman run -d --name $CONTAINER_NAME -p $PORT -v $VOLUME_PATH --env-file $ENV_FILE $IMAGE_NAME"
-else
-  podman run -d --name $CONTAINER_NAME -p $PORT -v $VOLUME_PATH --env-file $ENV_FILE $IMAGE_NAME
-fi
+run_cmd "$ENGINE run -d --name $CONTAINER_NAME -p $PORT -v $VOLUME_PATH --env-file $ENV_FILE $IMAGE_NAME"
 
 echo "✅ Done!"
