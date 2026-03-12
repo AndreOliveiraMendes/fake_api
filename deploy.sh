@@ -1,10 +1,22 @@
 #!/bin/bash
 
 # CONFIG
+# Diretório do script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+HOME_DATA="$HOME/fake_api_data_local"
+SCRIPT_DATA="$SCRIPT_DIR/data"
+
+if [[ -d "$HOME_DATA" ]]; then
+  DATA_PATH="$HOME_DATA"
+else
+  DATA_PATH="$SCRIPT_DATA"
+fi
+
 IMAGE_NAME="fake_api"
 CONTAINER_NAME="fake_api_server"
 PORT="5001:5001"
-VOLUME_PATH="$HOME/fake_api_data_local:/app/data"
+VOLUME_PATH="$DATA_PATH:/app/data"
 ENV_FILE=".env"
 
 DRY_RUN=false
