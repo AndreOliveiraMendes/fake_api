@@ -112,9 +112,11 @@ Retorna status do serviço:
 
 ```json
 {
-  "status": "ok",
-  "service": "fake_api",
-  "version": "1.3.0"
+  "file_exists":	true,
+  "service":	"fake_api",
+  "status":	"ok",
+  "users_loaded":	1,
+  "version":	"mv.sv.pv"
 }
 ```
 
