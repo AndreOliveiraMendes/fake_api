@@ -1,26 +1,30 @@
-# Imagem base
 FROM python:3.12-slim
 
-# Autor/label opcional
 LABEL maintainer="ao_mendes@hotmail.com"
 
-# Diretório de trabalho
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
 WORKDIR /app
 
-# Copia requirements primeiro (cache melhor)
+# dependências de sistema (útil pra libs como mysqlclient, sass, etc.)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# instala dependências primeiro (cache layer eficiente)
 COPY requirements.txt .
 
-# Atualiza pip e instala dependências
-RUN python -m pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
 
-# Copia o código
+# copia apenas o necessário depois
 COPY app/ app/
+COPY config.py .
 COPY data/ data/
-COPY config.py ./
 
-# Expor a porta
 EXPOSE 5001
 
-# Comando de execução
 CMD ["python", "-m", "app.main"]

@@ -1,0 +1,11 @@
+services:
+  fake_api:
+    image: andreoliveiramendes/mock_api:v1
+    container_name: fake_api_server
+    ports:
+      - "5001:5001"
+    volumes:
+      - /home/andre/projects/fake_api/data:/app/data
+    env_file:
+      - .env
+    restart: unless-stopped

@@ -35,7 +35,7 @@ fake_api/
 │   ├── dados_mock.json
 │   └── dados_mock_exemplo.json
 ├── config.py
-├── deploy.sh
+├── docker-compose.yml
 ├── fake_api.md
 └── requirements.txt
 
